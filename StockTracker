@@ -1,0 +1,51 @@
+    stock_prices = {
+    "AAPL": 180,
+    "TSLA": 250,
+    "GOOGL": 140,
+    "AMZN": 135,
+    "MSFT": 320,
+    "NVDA": 150
+}
+
+portfolio = {}
+
+print("Welcome to the Stock Portfolio Tracker!")
+print("Available stocks:", ", ".join(stock_prices.keys()))
+
+
+while True:
+    stock = input("\nEnter stock symbol (or type 'done' to finish): ").upper()
+    if stock == "DONE":
+        break
+    if stock not in stock_prices:
+        print("Invalid stock symbol. Try again.")
+        continue
+    try:
+        quantity = int(input(f"Enter quantity of {stock}: "))
+        if quantity < 0:
+            raise ValueError
+        portfolio[stock] = portfolio.get(stock, 0) + quantity
+    except ValueError:
+        print("Please enter a valid number.")
+
+
+total_value = 0
+output_lines = ["Your Stock Portfolio Summary:\n"]
+for stock, quantity in portfolio.items():
+    price = stock_prices[stock]
+    value = price * quantity
+    total_value += value
+    line = f"{stock}: {quantity} shares @ ${price} = ${value}"
+print(line)
+output_lines.append(line)
+
+summary_line = f"\nTotal Investment: ${total_value}"
+ print(summary_line)
+ output_lines.append(summary_line)
+
+
+ with open("myfile.txt", "w") as file:
+    for line in output_lines:
+         file.write(line + "\n")
+
+print("\nPortfolio has been saved to 'myfile.txt'.")
